@@ -317,7 +317,7 @@ class Calculate:
 """3. Output"""
 row3 = row1 + 7 + 1
 calculate = Calculate()
-Button(root, text='确认', command=lambda: calculate.cal()
+Button(root, text='确认', command=lambda: calculate.cal_old()
        ).grid(row=row3, column=column1+2, sticky='w')
 
 # 结果框
