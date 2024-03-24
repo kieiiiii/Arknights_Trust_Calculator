@@ -21,19 +21,22 @@ Label(root, text='信赖计算器', font=font_title,
       height=2, width=44).grid(row=row0, column=1, columnspan=5)
 Label(root, text='by kiei', justify='right',
       height=1, width=10).grid(row=row0+1, column=4, pady=5)
-
+"""
+思路1.0: 12人以内的时候，把信赖最低12345个人放中枢和基建+刷关，10人刷关，比较用时，输出最长的天数。
+        （假设内容过多，只能作为参考）
+思路1.1: 模拟每一天的情况，用while语句更新每天的信赖变化。（但理智液只能默认day1用完，十分不方便）
+"""
 info = \
     f'刷信赖Tips：\n' \
     f'1. 中枢副手可以塞5个人\n' \
     f'2. 干员可以放在宿舍、加工站、\n' \
     f'   训练室等基建空位过夜\n\n' \
     f'计算说明：\n' \
-    f'1. 信赖最少的放中枢副手\n' \
-    f'2. 其次四名干员放在中枢剩余四个位置\n' \
-    f'3. 默认按照带10名干员刷关卡计算\n' \
-    f'4. 没算活动期间150%信赖\n' \
-    f'5. 默认基建放5个人过夜\n' \
-    f'6. 基建信赖满了也不会换人\n' \
+    f'1. 没算活动期间150%信赖\n' \
+    f'2. 理智液会在第一天用完，\n' \
+    f'   信赖满了也不会换人\n' \
+    f'   比起ver1.0反而没法考虑理\n' \
+    f'   理液多的情况(反向更新确信)\n' \
     f'别问为什么，代码不会写(TT\n'
 
 Label(root, text=info,
@@ -178,7 +181,7 @@ class Calculate:
         # (11+) 模糊估计：按日均4900计算：
         return (self.cal_trust(self.l) / 4900)
 
-    def cal_old(self):
+    def cal_old1(self):
         self.s = trust_entry.get(1.0, END)  # str
         self.sanityplus = 0
         try:
@@ -317,7 +320,7 @@ class Calculate:
 """3. Output"""
 row3 = row1 + 7 + 1
 calculate = Calculate()
-Button(root, text='确认', command=lambda: calculate.cal_old()
+Button(root, text='确认', command=lambda: calculate.cal()
        ).grid(row=row3, column=column1+2, sticky='w')
 
 # 结果框
