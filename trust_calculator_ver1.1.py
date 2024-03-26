@@ -46,7 +46,7 @@ Label(root, text=info,
 row1 = row0 + 1 + 1
 column1 = 2 + 1
 # 未满的信赖
-Label(root, text='请输入干员的信赖：\n(用“,”或“ ”分开，例：0,20,199)',
+Label(root, text='请输入干员的信赖：\n(用“,”或“ ”分开，例：0,20,199)', anchor='e',
       height=2, width=30).grid(row=row1, column=column1, sticky='e', padx=0, pady=5, columnspan=2)
 
 trust_var = StringVar()
@@ -57,36 +57,43 @@ scroll = Scrollbar(root, command=trust_entry.yview)
 trust_entry.grid(row=row1, column=column1+2, padx=10, pady=5, sticky='w', columnspan=1)
 
 # 理智液
-Label(root, text='应急理智浓缩液(120)数量：',
-      height=2, width=30).grid(row=row1+1, column=column1, sticky='e', padx=0, columnspan=2)
-Label(root, text='应急理智加强剂(80)数量：',
-      height=2, width=30).grid(row=row1+2, column=column1, sticky='e', padx=0, columnspan=2)
-Label(root, text='应急理智小样(10)数量：',
-      height=2, width=30).grid(row=row1+3, column=column1, sticky='e', padx=0, columnspan=2)
+Label(root, text='应急理智浓缩液(120)数量：', anchor='e',
+      height=2, width=30).grid(row=row1+1, column=column1, sticky='e', columnspan=2)
+Label(root, text='应急理智加强剂(80)数量：', anchor='e',
+      height=2, width=30).grid(row=row1+2, column=column1, sticky='e', columnspan=2)
+Label(root, text='应急理智小样(10)数量：', anchor='e',
+      height=2, width=30).grid(row=row1+3, column=column1, sticky='e', columnspan=2)
 
 sanity_var= [StringVar(), StringVar(), StringVar()]
 sanity120_entry = Entry(root, width=20, textvariable=sanity_var[0])
 sanity80_entry = Entry(root, width=20, textvariable=sanity_var[1])
 sanity10_entry = Entry(root, width=20, textvariable=sanity_var[2])
+sanity120_entry.insert(0, "0")
+sanity80_entry.insert(0, "0")
+sanity10_entry.insert(0, "0")
 sanity120_entry.grid(row=row1+1, column=column1+2, padx=10, pady=5, sticky='w', columnspan=1)
 sanity80_entry.grid(row=row1+2, column=column1+2, padx=10, pady=5, sticky='w', columnspan=1)
 sanity10_entry.grid(row=row1+3, column=column1+2, padx=10, pady=5, sticky='w', columnspan=1)
 
 # 各项目人数
-Label(root, text='中枢副手(最上面)：\n(默认为1，如果没放人请填0)：',
-      height=2, width=30).grid(row=row1+4, column=column1, sticky='e', padx=0, columnspan=2)
-Label(root, text='中枢副手人数(下面4人)：\n(默认为4，如果不满请填实际人数)',
-      height=2, width=30).grid(row=row1+5, column=column1, sticky='e', padx=0, columnspan=2)
-Label(root, text='基建刷信赖人数：\n(默认为5，如果不符请填实际人数)',
-      height=2, width=30).grid(row=row1+6, column=column1, sticky='e', padx=0, columnspan=2)
-Label(root, text='刷关带信赖人数：\n(默认为10，如果不符请填实际人数)',
-      height=2, width=30).grid(row=row1+7, column=column1, sticky='e', padx=0, columnspan=2)
+Label(root, text='中枢副手(最上面)人数：', anchor='e',
+      height=2, width=30).grid(row=row1+4, column=column1, sticky='e', columnspan=2)
+Label(root, text='中枢副手(下面4个)人数：', anchor='e',
+      height=2, width=30).grid(row=row1+5, column=column1, sticky='e', columnspan=2)
+Label(root, text='基建刷信赖人数：', anchor='e',
+      height=2, width=30).grid(row=row1+6, column=column1, sticky='e', columnspan=2)
+Label(root, text='消耗理智作战带信赖人数：', anchor='e',
+      height=2, width=30).grid(row=row1+7, column=column1, sticky='e', columnspan=2)
 
 operaternum_var = [StringVar(), StringVar(), StringVar(), StringVar()]
 centre_a_entry = Entry(root, width=20, textvariable=operaternum_var[0])
 centre_b_entry = Entry(root, width=20, textvariable=operaternum_var[1])
 dorm_entry = Entry(root, width=20, textvariable=operaternum_var[2])
 combat_entry = Entry(root, width=20, textvariable=operaternum_var[3])
+centre_a_entry.insert(0, "1")
+centre_b_entry.insert(0, "4")
+dorm_entry.insert(0, "5")
+combat_entry.insert(0, "10")
 centre_a_entry.grid(row=row1+4, column=column1+2, padx=10, pady=5, sticky='w', columnspan=1)
 centre_b_entry.grid(row=row1+5, column=column1+2, padx=10, pady=5, sticky='w', columnspan=1)
 dorm_entry.grid(row=row1+6, column=column1+2, padx=10, pady=5, sticky='w', columnspan=1)
