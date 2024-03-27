@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+@Time: 2024/3/22 19:13
+@Auth: kiei
+@File: trust_calculator.py
+@IDE: PyCharm
+"""
+
 from tkinter import *
 from math import ceil
 
@@ -19,8 +27,8 @@ needdays.set(f'预计需要0天')
 row0 = 1
 Label(root, text='信赖计算器', font=font_title,
       height=2, width=44).grid(row=row0, column=1, columnspan=5)
-Label(root, text='by kiei', justify='right',
-      height=1, width=10).grid(row=row0+1, column=4, pady=5)
+# Label(root, text='by kiei', justify='right',
+#       height=1, width=10).grid(row=row0+1, column=4, pady=5)
 """
 思路1.0: 12人以内的时候，把信赖最低12345个人放中枢和基建+刷关，10人刷关，比较用时，输出最长的天数。
         （假设内容过多，只能作为参考）
@@ -36,10 +44,28 @@ info = \
     f'   训练室等基建空位过夜\n\n' \
     f'计算说明：\n' \
     f'1. 没算活动期间150%信赖\n' \
-    f'别问为什么，代码不会写(TT\n'
+    f'别问为什么，代码不会写(TT\n\n' \
+    f'数据来源：prts.wiki\n' \
+    f'反馈邮箱：331454670@qq.com\n' \
+    # todo prts跳转
+
+def copyfeedback():
+    root.clipboard_clear()
+    root.clipboard_append('331454670@qq.com')
+    root.update()
+
 
 Label(root, text=info,
-      height=15, width=30, justify='left').grid(row=row0+2, column=1, padx=10, rowspan=4, columnspan=2)
+      height=15, width=30, justify='left').grid(row=row0+2, column=1, padx=10, rowspan=5, columnspan=2)
+
+# Label(root, text=info2,
+#       justify='left').grid(row=row0+5, column=1, padx=10, columnspan=2)
+
+Button(root, text='点此复制', command=copyfeedback
+       ).grid(row=row0+6, column=2)
+
+
+
 
 """1. Input"""
 row1 = row0 + 1 + 1
