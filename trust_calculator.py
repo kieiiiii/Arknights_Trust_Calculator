@@ -246,11 +246,11 @@ class Calculate:
         self.centre_a, self.centre_b, self.dorm, self.combat = 1, 4, 5, 10
         try:
             if len(sanity10_entry.get()) > 0:
-                self.sanityplus = int(sanity10_entry.get()) * 10
+                self.sanityplus += int(sanity10_entry.get()) * 10
             if len(sanity80_entry.get()) > 0:
-                self.sanityplus = int(sanity80_entry.get()) * 80
+                self.sanityplus += int(sanity80_entry.get()) * 80
             if len(sanity120_entry.get()) > 0:
-                self.sanityplus = int(sanity120_entry.get()) * 120
+                self.sanityplus += int(sanity120_entry.get()) * 120
             if len(centre_a_entry.get()) > 0:
                 assert int(centre_a_entry.get()) in [0, 1]
                 self.centre_a = int(centre_a_entry.get())
