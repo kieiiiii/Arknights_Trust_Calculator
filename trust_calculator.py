@@ -25,18 +25,17 @@ Label(root, text='by kiei', justify='right',
 思路1.0: 12人以内的时候，把信赖最低12345个人放中枢和基建+刷关，10人刷关，比较用时，输出最长的天数。
         （假设内容过多，只能作为参考）
 思路1.1: 模拟每一天的情况，用while语句更新每天的信赖变化。（但理智液只能默认day1用完，十分不方便）
+
+思路1.1.1: 战斗（和理智液）理智以155为单位增加，避免了一次性加很多溢出浪费的情况 
 """
 info = \
     f'刷信赖Tips：\n' \
-    f'1. 中枢副手可以塞5个人\n' \
-    f'2. 干员可以放在宿舍、加工站、\n' \
+    f'1. 刷关可以多带信赖未满的干员\n' \
+    f'2. 中枢副手可以塞5个人\n' \
+    f'3. 干员可以放在宿舍、加工站、\n' \
     f'   训练室等基建空位过夜\n\n' \
     f'计算说明：\n' \
     f'1. 没算活动期间150%信赖\n' \
-    f'2. 理智液会在第一天用完，\n' \
-    f'   信赖满了也不会换人\n' \
-    f'   比起ver1.0反而没法考虑理\n' \
-    f'   理液多的情况(反向更新确信)\n' \
     f'别问为什么，代码不会写(TT\n'
 
 Label(root, text=info,
@@ -258,7 +257,8 @@ class Calculate:
                                  combat=self.combat, sanityplus=self.sanityplus)
         days = 1
         # 移除信赖达到25570+的干员(如果有多个？)
-        for point in l_update:
+        l_tmp = [x for x in l_update]
+        for point in l_tmp:  # 直接迭代l_update，会导致序列变短，未遍历完整就结束了
             if point >= 25570:
                 l_update.remove(point)
 
@@ -266,7 +266,8 @@ class Calculate:
             l_update = self.simulate(l_update, centre_a=self.centre_a, centre_b=self.centre_b, dorm=self.dorm,
                                      combat=self.combat)
             days += 1
-            for point in l_update:
+            l_tmp = [x for x in l_update]
+            for point in l_tmp:
                 if point >= 25570:
                     l_update.remove(point)
         needdays.set(f'预计需要{days}天')
@@ -286,29 +287,34 @@ class Calculate:
         # assert len(l) <= 12, "输入序列过长，请输入长度在12以内的序列"
         l_point = [int(x) for x in l]
         l_point.sort()  # min->max
+        n = len(l_point)
         # l_percen = l1  # 信赖值（%）
         # l_point = [t_dic[p] for p in l_percen]  # 信赖点数
+        if combat:
+            if l_point[min(combat-1, n-1)] + 240 + sanityplus >= 25570:
+                # 如果一次性全加上去会满信赖，则分成若干个155计算
+                # todo 这里还可以数学上化简（简化循环模拟）
+                times, left = (240+sanityplus) // 155, (240+sanityplus) % 155  # 商和余数
+                for ti in range(times):
+                    for i in range(min(combat, n)):
+                        l_point[i] += 155
+                    l_point.sort()  # 刷够155换一次人
+                for i in range(min(combat, n)):
+                    l_point[i] += left
+            else:
+                for i in range(min(combat, n)):
+                    l_point[i] += 240 + sanityplus
+
         if centre_a:
             l_point[0] += 500*2
         if centre_b:
-            for i in range(centre_b):
-                # try: 以免序列不够长
-                try:
-                    l_point[i+1] += 125*2
-                except:
-                    pass
+            for i in range(1, min(centre_b+1, n)):
+                # 以免序列不够长
+                l_point[i] += 125*2
         if dorm:
-            for i in range(dorm):
-                try:
-                    l_point[i] += 100
-                except:
-                    pass
-        if combat:
-            for i in range(combat):
-                try:
-                    l_point[i] += 240 + sanityplus
-                except:
-                    pass
+            for i in range(min(dorm, n)):
+                l_point[i] += 100
+
         # for idx in range(len(l_point)):
         #     x = l_point[idx]
             # x为现有信赖点数，求x对应的信赖值(%)
@@ -322,7 +328,7 @@ class Calculate:
 
 
 
-# todo 需要天数、人少的时候的算法
+
 
 """3. Output"""
 row3 = row1 + 7 + 1
