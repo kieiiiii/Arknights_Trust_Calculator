@@ -180,6 +180,7 @@ class Calculate:
 
 # todo 活动期间1.5倍
     def cal_days(self):
+        # 废案 1.0思路
         d = 0
         t = 0
         l = [int(x) for x in self.l]
